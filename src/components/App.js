@@ -1,13 +1,36 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
+import List from "./List";
+import ActionButton from "./ActionButton";
 
-import List from './List';
+class App extends React.Component {
+  render() {
+    const { lists } = this.props;
 
-function App() {
-  return (
-    <div >
-        <List title="test" />
-    </div>
-  );
+    return (
+      <div>
+        <h2>Hello Youtube</h2>
+        <div style={style.listContainer}>
+          {lists.map(list => 
+            <List key={list.id} title={list.title} cards={list.cards} />
+          )}
+          <ActionButton list />
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const style = {
+  listContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: 8
+  }
+}
+
+const mapStateToProps = state => ({
+  lists: state.lists
+});
+
+export default connect(mapStateToProps)(App);
