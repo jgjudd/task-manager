@@ -3,6 +3,8 @@ import Icon from "@material-ui/core/Icon";
 import { Card } from "@material-ui/core";
 import Textarea from "react-textarea-autosize";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { addList, addCard } from "../actions";
 
 class ActionButton extends React.Component {
   state = {
@@ -20,6 +22,31 @@ class ActionButton extends React.Component {
 
   handleInputChange = e => {
     this.setState({ text: e.target.value });
+  };
+
+  handleAddList = () => {
+    const { dispatch } = this.props;
+    const text = this.state.text;
+
+    if (text) {
+      this.setState({
+        text: ""
+      });
+      dispatch(addList(text));
+    }
+    return;
+  };
+
+  handleAddCard = () => {
+    const { dispatch, listID } = this.props;
+    const { text } = this.state;
+
+    if (text) {
+      this.setState({
+        text: ""
+      });
+      dispatch(addCard(listID, text));
+    }
   };
 
   renderAddButton = () => {
@@ -81,12 +108,13 @@ class ActionButton extends React.Component {
         </Card>
         <div style={style.formButtonGroup}>
           <Button
+            onMouseDown={list ? this.handleAddList : this.handleAddCard}
             variant="contained"
             style={{ color: "white", backgroundColor: "#5aac44" }}
           >
             {buttonTitle}
           </Button>
-          <Icon style={{marginLeft: 0, cursor: 'pointer'}}>close</Icon>
+          <Icon style={{ marginLeft: 0, cursor: "pointer" }}>close</Icon>
         </div>
       </div>
     );
@@ -108,10 +136,10 @@ const style = {
     paddingLeft: 10
   },
   formButtonGroup: {
-      marginTop: 8,
-      display: 'flex',
-      alignItems: 'center'
+    marginTop: 8,
+    display: "flex",
+    alignItems: "center"
   }
 };
 
-export default ActionButton;
+export default connect()(ActionButton);

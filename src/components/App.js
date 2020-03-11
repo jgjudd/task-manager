@@ -11,9 +11,14 @@ class App extends React.Component {
       <div>
         <h2>Hello Youtube</h2>
         <div style={style.listContainer}>
-          {lists.map(list => 
-            <List key={list.id} title={list.title} cards={list.cards} />
-          )}
+          {lists.map(list => (
+            <List
+              listID={list.id}
+              key={list.id}
+              title={list.title}
+              cards={list.cards}
+            />
+          ))}
           <ActionButton list />
         </div>
       </div>
@@ -23,11 +28,11 @@ class App extends React.Component {
 
 const style = {
   listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginRight: 8
   }
-}
+};
 
 const mapStateToProps = state => ({
   lists: state.lists
